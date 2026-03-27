@@ -1,22 +1,17 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
+import type { ElectronAPI } from '../shared/types'
 
-// Custom APIs for renderer
-const api = {}
-
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
-  }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+const api: ElectronAPI = {
+  getWordList: () => ipcRenderer.invoke('get-word-list'),
+  getWordContent: (word) => ipcRenderer.invoke('get-word-content', word),
+  searchWords: (query) => ipcRenderer.invoke('search-words', query),
+  addToQueue: (word) => ipcRenderer.invoke('add-to-queue', word),
+  removeFromQueue: (word) => ipcRenderer.invoke('remove-from-queue', word),
+  isInQueue: (word) => ipcRenderer.invoke('is-in-queue', word),
+  getQueueWords: () => ipcRenderer.invoke('get-queue-words'),
+  getTodayReviewList: () => ipcRenderer.invoke('get-today-review-list'),
+  submitReview: (word, rating) => ipcRenderer.invoke('submit-review', word, rating),
+  getStats: () => ipcRenderer.invoke('get-stats')
 }
+
+contextBridge.exposeInMainWorld('api', api)
