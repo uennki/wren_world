@@ -6,9 +6,6 @@
     "src/renderer/**/*.vue",
     "src/preload/*.d.ts"
   ],
-  "exclude": [
-    "src/renderer/src/**/*"
-  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",

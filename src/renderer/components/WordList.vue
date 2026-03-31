@@ -58,7 +58,7 @@ onMounted(() => {
           }"
           @click="emit('select', word)"
         >
-          <span class="dot">{{ queueChecker(word) ? '●' : '○' }}</span>
+          <span class="status-dot" :class="{ active: queueChecker(word) }"></span>
           <span class="word-text">{{ word }}</span>
         </div>
       </div>
@@ -74,31 +74,38 @@ onMounted(() => {
 }
 
 .word-item {
-  height: 36px;
+  height: 34px;
   display: flex;
   align-items: center;
   padding: 0 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   gap: 8px;
-}
-
-.word-item:hover {
-  background: var(--bg-card);
-}
-
-.word-item.selected {
-  background: var(--bg-card);
-  border-left: 2px solid var(--accent);
-}
-
-.dot {
-  font-size: 10px;
   color: var(--text-secondary);
 }
 
-.word-item.in-queue .dot {
-  color: var(--accent);
+.word-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.word-item.selected {
+  background: var(--accent-subtle);
+  border-left: 2px solid var(--accent);
+  color: var(--text-primary);
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.status-dot.active {
+  background: var(--accent);
 }
 
 .word-text {

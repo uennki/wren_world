@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { calculateSRS } from '../src/shared/srs'
 
-// Mock 日期为固定值，方便测试
+// Mock 日期为固定值，方便测试（只 fake Date，不影响 setTimeout 等内部 timer）
 function mockToday(dateStr: string) {
-  vi.useFakeTimers()
+  vi.useFakeTimers({ toFake: ['Date'] })
   vi.setSystemTime(new Date(dateStr))
 }
 
-beforeEach(() => {
+afterEach(() => {
   vi.useRealTimers()
 })
 

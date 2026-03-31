@@ -41,6 +41,25 @@ export interface SRSOutput {
   status: 'learning' | 'mastered'
 }
 
+// 今日单词：计划中的单词条目
+export interface DailyPlanWord {
+  plan_date: string
+  word: string
+  position: number
+  viewed: number  // 0 | 1
+}
+
+// 今日单词：计划状态
+export type DailyPlanStatusType = 'active' | 'completed_today' | 'all_learned'
+
+export interface DailyPlanStatus {
+  type: DailyPlanStatusType
+  planDate?: string
+  words?: DailyPlanWord[]
+  total?: number
+  viewedCount?: number
+}
+
 // 统计数据
 export interface StatsData {
   total: number
@@ -69,6 +88,14 @@ export interface ElectronAPI {
   submitReview: (word: string, rating: 1 | 2 | 3 | 4) => Promise<void>
   // 统计
   getStats: () => Promise<StatsData>
+  // 今日单词
+  getActiveDailyPlan: () => Promise<DailyPlanStatus>
+  markWordViewed: (planDate: string, word: string) => Promise<void>
+  completeDailyPlan: (planDate: string) => Promise<void>
+  getDailyCount: () => Promise<number>
+  setDailyCount: (count: number) => Promise<void>
+  // 朗读
+  speakWord: (word: string) => Promise<void>
 }
 
 declare global {

@@ -19,7 +19,10 @@ export function useReview() {
 
   const renderedContent = computed(() => {
     if (!currentContent.value) return ''
-    return md.render(currentContent.value)
+    const normalized = currentContent.value
+      .replace(/^\*\*(?:\d+\\?\.\s*)?([^*\n\r]+?)\s*\*\*\s*$/gm, '## $1')
+      .replace(/^(#{1,4}\s+)\d+\\?\.\s*/gm, '$1')
+    return md.render(normalized)
   })
 
   const totalCount = computed(() => reviewList.value.length)

@@ -42,13 +42,28 @@ async function handleToggleQueue() {
   <div class="browse-tab">
     <div class="left-panel">
       <div class="search-box">
-        <input
-          ref="searchInput"
-          v-model="searchQuery"
-          type="text"
-          placeholder="搜索单词..."
-          class="search-input"
-        />
+        <div class="search-wrapper">
+          <svg
+            class="search-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            ref="searchInput"
+            v-model="searchQuery"
+            type="text"
+            placeholder="搜索单词..."
+            class="search-input"
+          />
+        </div>
       </div>
       <WordList
         :words="filteredWords"
@@ -75,30 +90,44 @@ async function handleToggleQueue() {
 }
 
 .left-panel {
-  width: 250px;
-  border-right: 1px solid var(--border);
+  width: 220px;
+  border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
 }
 
 .search-box {
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid var(--border);
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-secondary);
+  pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  padding: 8px 12px;
+  padding: 7px 10px 7px 30px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 13px;
   outline: none;
 }
 
 .search-input:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
 }
 
 .search-input::placeholder {

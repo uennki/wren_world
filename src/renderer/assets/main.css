@@ -4,23 +4,41 @@
   box-sizing: border-box;
 }
 
+/* Dark theme — Slate base, 护眼低刺激暗色方案 (inspired by GitHub Dark / Linear) */
 :root {
-  --bg-primary: #1a1a2e;
-  --bg-secondary: #16213e;
-  --bg-card: #0f3460;
-  --text-primary: #e0e0e0;
-  --text-secondary: #a0a0a0;
-  --accent: #e94560;
-  --accent-hover: #ff6b81;
-  --success: #4ecca3;
-  --warning: #ffc857;
-  --border: #2a2a4a;
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --bg-hover: #262d37;
+  --text-primary: #e6edf3;
+  --text-secondary: #7d8590;
+  --text-muted: #484f58;
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-subtle: rgba(129, 140, 248, 0.12);
+  --success: #3fb950;
+  --warning: #d29922;
+  --danger: #f85149;
+  --border: #30363d;
+  --border-subtle: #21262d;
   --font-mono: 'SF Mono', 'Fira Code', monospace;
+  --radius: 6px;
+  --rating-bad: #f85149;
+  --rating-bad-bg: rgba(248, 81, 73, 0.12);
+  --rating-bad-border: rgba(248, 81, 73, 0.3);
+  --rating-weak: #e3b341;
+  --rating-weak-bg: rgba(227, 179, 65, 0.12);
+  --rating-weak-border: rgba(227, 179, 65, 0.3);
+  --rating-ok: #3fb950;
+  --rating-ok-bg: rgba(63, 185, 80, 0.12);
+  --rating-ok-border: rgba(63, 185, 80, 0.3);
+  --rating-good: #58a6ff;
+  --rating-good-bg: rgba(88, 166, 255, 0.12);
+  --rating-good-border: rgba(88, 166, 255, 0.3);
 }
 
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   overflow: hidden;
@@ -33,13 +51,12 @@ body {
   flex-direction: column;
 }
 
-/* Tab 导航 */
 .tab-nav {
   display: flex;
   gap: 0;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
-  padding: 0 16px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 16px 0 72px;
   -webkit-app-region: drag;
   height: 44px;
   align-items: stretch;
@@ -50,8 +67,8 @@ body {
   background: none;
   border: none;
   color: var(--text-secondary);
-  padding: 0 20px;
-  font-size: 14px;
+  padding: 0 16px;
+  font-size: 13px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.2s;
@@ -66,12 +83,31 @@ body {
   border-bottom-color: var(--accent);
 }
 
+.tab-nav button:active {
+  opacity: 0.7;
+}
+
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 6px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9px;
+  vertical-align: middle;
+}
+
 .tab-content {
   flex: 1;
   overflow: hidden;
 }
 
-/* 滚动条 */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -89,7 +125,6 @@ body {
   background: var(--text-secondary);
 }
 
-/* 按钮通用 */
 .btn {
   border: none;
   border-radius: 6px;
@@ -99,9 +134,14 @@ body {
   transition: all 0.2s;
 }
 
+.btn:active {
+  transform: scale(0.97);
+}
+
 .btn-primary {
   background: var(--accent);
   color: white;
+  font-weight: 500;
 }
 
 .btn-primary:hover {
@@ -111,19 +151,35 @@ body {
 .btn-outline {
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .btn-outline:hover {
   border-color: var(--accent);
   color: var(--accent);
+  background: var(--accent-subtle);
 }
 
-/* Markdown 内容样式 */
-.markdown-content h3 {
+.markdown-content {
+  counter-reset: heading-counter;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  counter-increment: heading-counter;
   color: var(--accent);
   margin: 20px 0 10px;
   font-size: 16px;
+  font-weight: 600;
+}
+
+.markdown-content h1::before,
+.markdown-content h2::before,
+.markdown-content h3::before,
+.markdown-content h4::before {
+  content: counter(heading-counter) ". ";
 }
 
 .markdown-content p {
@@ -148,4 +204,35 @@ body {
   border-radius: 3px;
   font-family: var(--font-mono);
   font-size: 13px;
+}
+
+/* Light theme — Slate color system,护眼低对比背景 */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-hover: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-subtle: rgba(79, 70, 229, 0.08);
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --rating-bad: #dc2626;
+  --rating-bad-bg: rgba(220, 38, 38, 0.07);
+  --rating-bad-border: rgba(220, 38, 38, 0.2);
+  --rating-weak: #d97706;
+  --rating-weak-bg: rgba(217, 119, 6, 0.07);
+  --rating-weak-border: rgba(217, 119, 6, 0.2);
+  --rating-ok: #16a34a;
+  --rating-ok-bg: rgba(22, 163, 74, 0.07);
+  --rating-ok-border: rgba(22, 163, 74, 0.2);
+  --rating-good: #2563eb;
+  --rating-good-bg: rgba(37, 99, 235, 0.07);
+  --rating-good-border: rgba(37, 99, 235, 0.2);
 }

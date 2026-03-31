@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.word-learner
 productName: word-learner
 directories:
   buildResources: build

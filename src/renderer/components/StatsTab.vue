@@ -6,6 +6,13 @@ const { stats, loadStats } = useStats()
 
 onMounted(loadStats)
 
+function formatLocalDate(date: Date): string {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 // 柱状图：最近 30 天
 const chartBars = computed(() => {
   if (!stats.value) return []
@@ -15,7 +22,7 @@ const chartBars = computed(() => {
   for (let i = 29; i >= 0; i--) {
     const d = new Date()
     d.setDate(d.getDate() - i)
-    const dateStr = d.toISOString().split('T')[0]
+    const dateStr = formatLocalDate(d)
     const count = map.get(dateStr) || 0
     bars.push({
       date: dateStr,
@@ -39,13 +46,13 @@ const maxCount = computed(() => {
         <div class="stat-number">{{ stats.total }}</div>
         <div class="stat-label">总词汇</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card stat-card--accent">
         <div class="stat-number" style="color: var(--accent)">
           {{ stats.learning }}
         </div>
         <div class="stat-label">学习中</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card stat-card--success">
         <div class="stat-number" style="color: var(--success)">
           {{ stats.mastered }}
         </div>
@@ -86,6 +93,11 @@ const maxCount = computed(() => {
           />
         </div>
       </div>
+      <div class="chart-axis">
+        <span>{{ chartBars[0]?.label }}</span>
+        <span>{{ chartBars[14]?.label }}</span>
+        <span>{{ chartBars[29]?.label }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -106,14 +118,22 @@ const maxCount = computed(() => {
 .stat-card {
   flex: 1;
   background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
   padding: 20px;
   text-align: center;
 }
 
+.stat-card--accent {
+  border-top: 2px solid var(--accent);
+}
+
+.stat-card--success {
+  border-top: 2px solid var(--success);
+}
+
 .stat-number {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -128,7 +148,7 @@ const maxCount = computed(() => {
   gap: 24px;
   margin-bottom: 30px;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .stat-row strong {
@@ -136,9 +156,11 @@ const maxCount = computed(() => {
 }
 
 .chart-section h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
   margin-bottom: 16px;
-  font-size: 16px;
-  color: var(--text-secondary);
 }
 
 .chart {
@@ -160,7 +182,17 @@ const maxCount = computed(() => {
   width: 100%;
   min-height: 2px;
   background: var(--accent);
+  opacity: 0.85;
   border-radius: 2px 2px 0 0;
   transition: height 0.3s;
+}
+
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 </style>

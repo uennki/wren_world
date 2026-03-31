@@ -14,7 +14,10 @@ function createWindow(): void {
     title: 'GPT4 单词学习',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
+      webSecurity: true
     }
   })
 
