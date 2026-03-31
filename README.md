@@ -1,12 +1,12 @@
 # word-learner
 
-基于 Electron + Vue 3 + TypeScript 的桌面词汇学习应用，使用 SM-2 间隔重复算法进行科学记词。
+A desktop vocabulary learning app built with Electron, Vue 3, and TypeScript, powered by the SM-2 spaced repetition algorithm.
 
-## 截图
+## Screenshots
 
-| 浏览单词 | 今日单词 | 学习统计 |
+| Browse | Daily Words | Statistics |
 |:---:|:---:|:---:|
-| ![浏览单词](images/2026-03-31%2012.40.05.png) | ![今日单词](images/2026-03-31%2012.40.29.png) | ![学习统计](images/2026-03-31%2012.40.38.png) |
+| ![Browse](images/2026-03-31%2012.40.05.png) | ![Daily Words](images/2026-03-31%2012.40.29.png) | ![Statistics](images/2026-03-31%2012.40.38.png) |
 
 ## Recommended IDE Setup
 
