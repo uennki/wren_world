@@ -1,0 +1,32 @@
+---
+description: 项目全局编码与格式化规范（Electron + Vue + TypeScript）
+alwaysApply: true
+---
+
+# Word Learner 全局规则
+
+## 代码风格
+
+- 使用 TypeScript，避免 `any`，优先复用 `src/shared/types.ts` 中的类型。
+- 命名清晰、函数短小；复杂逻辑拆到 composable 或 shared 层。
+- 仅在必要处加简短注释，注释解释“为什么”，不是“在做什么”。
+
+## 格式化与基础规范
+
+- Prettier 约定保持一致：`singleQuote: true`、`semi: false`、`printWidth: 100`、`trailingComma: none`。
+- EditorConfig 约定保持一致：2 空格缩进、LF、UTF-8、文件末尾换行、去除行尾空格。
+- 修改代码后优先运行：`npm run lint`，再根据改动运行 `npm run typecheck`。
+
+## 架构与安全约束
+
+- 渲染进程禁止直接使用 Node.js 能力，必须通过 `window.api` 调用。
+- 新增 IPC 能力时，必须同时更新：
+  - `src/main/ipc.ts`
+  - `src/preload/index.ts`
+  - `src/preload/index.d.ts`
+- SRS 相关改动必须同步更新 `tests/srs.test.ts` 并执行 `npm run test`。
+
+## 提交前检查
+
+- 重大改动至少通过：`npm run lint` + `npm run typecheck`。
+- 涉及 SRS 算法或复习流程的改动，必须补测并通过 `npm run test`。
